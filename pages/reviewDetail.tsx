@@ -16,8 +16,6 @@ type Review = {
 const ReviewDetailPage = () => {
     const router = useRouter();
     const { id } = router.query;
-
-    // Initialize state with Review type or null
     const [review, setReview] = useState<Review | null>(null);
 
     useEffect(() => {
@@ -31,17 +29,22 @@ const ReviewDetailPage = () => {
         }
     }, [id]);
 
-    if (!review) return <div>Loading...</div>;
+    if (!review) return <div className="text-center text-white">Loading...</div>;
 
     return (
-        <div>
+        <div className="min-h-screen bg-black text-white">
             <Navbar />
-            <h1>Review Details</h1>
-            <h2>{review.place_name}</h2>
-            <p>{review.comment}</p>
-            <p>Overall Rating: {review.rating_overall}</p>
-            <p>Cleanliness: {review.rating_cleanliness}</p>
-            <p>Comfort: {review.rating_comfort}</p>
+            <div className="container mx-auto py-12 px-4 sm:px-6 lg:px-8">
+                <div className="bg-gray-800 p-8 rounded-lg shadow-xl border border-green-400 animate-fadeIn">
+                    <h2 className="text-3xl font-bold text-green-400">{review.place_name}</h2>
+                    <p className="mt-4 text-gray-300">{review.comment}</p>
+                    <div className="mt-6 text-gray-500">
+                        <p>Overall Rating: {review.rating_overall}</p>
+                        <p>Cleanliness: {review.rating_cleanliness}</p>
+                        <p>Comfort: {review.rating_comfort}</p>
+                    </div>
+                </div>
+            </div>
         </div>
     );
 };
