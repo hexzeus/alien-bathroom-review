@@ -1,4 +1,4 @@
-const API_URL = 'http://localhost:5000/api/reviews';  // Change this to the correct backend URL when deploying
+const API_URL = 'https://alien-2q9q.onrender.com/api/reviews';  // Change this to the correct backend URL when deploying
 
 export const fetchReviews = async () => {
     const res = await fetch(API_URL);
