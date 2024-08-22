@@ -1,17 +1,26 @@
-const API_URL = 'https://alien-2q9q.onrender.com/api';  // Base URL for your API
+const API_URL = process.env.NODE_ENV === 'production'
+    ? 'https://alien-2q9q.onrender.com/api'
+    : 'http://localhost:5000/api';  // Base URL for your API
+
+// Helper function for API calls
+const handleAPIResponse = async (res: Response) => {
+    if (!res.ok) {
+        const errorText = await res.text();
+        throw new Error(`API Error: ${res.status} - ${errorText}`);
+    }
+    return res.json();
+};
 
 // Fetch all reviews for the general use
 export const fetchReviews = async () => {
     const res = await fetch(`${API_URL}/reviews`);
-    if (!res.ok) throw new Error('Failed to fetch reviews');
-    return res.json();
+    return handleAPIResponse(res);
 };
 
 // Fetch a single review by ID
 export const fetchReviewById = async (id: number) => {
     const res = await fetch(`${API_URL}/reviews/${id}`);
-    if (!res.ok) throw new Error(`Failed to fetch review with id ${id}`);
-    return res.json();
+    return handleAPIResponse(res);
 };
 
 // Submit a new review
@@ -23,8 +32,7 @@ export const submitReview = async (reviewData: object) => {
         },
         body: JSON.stringify(reviewData),
     });
-    if (!res.ok) throw new Error('Failed to submit review');
-    return res.json();
+    return handleAPIResponse(res);
 };
 
 // Update an existing review by ID
@@ -36,8 +44,7 @@ export const updateReview = async (id: number, reviewData: object) => {
         },
         body: JSON.stringify(reviewData),
     });
-    if (!res.ok) throw new Error(`Failed to update review with id ${id}`);
-    return res.json();
+    return handleAPIResponse(res);
 };
 
 // Delete a review by ID
@@ -45,22 +52,19 @@ export const deleteReview = async (id: number) => {
     const res = await fetch(`${API_URL}/reviews/${id}`, {
         method: 'DELETE',
     });
-    if (!res.ok) throw new Error(`Failed to delete review with id ${id}`);
-    return res.json();
+    return handleAPIResponse(res);
 };
 
-// Fetch review statistics for the admin dashboard
+// Fetch review stats for the admin dashboard
 export const fetchReviewStats = async () => {
     const res = await fetch(`${API_URL}/admin/stats`);
-    if (!res.ok) throw new Error('Failed to fetch review statistics');
-    return res.json();
+    return handleAPIResponse(res);
 };
 
 // Fetch all reviews for the admin dashboard
 export const fetchAllReviewsForAdmin = async () => {
     const res = await fetch(`${API_URL}/admin/reviews`);
-    if (!res.ok) throw new Error('Failed to fetch reviews for admin');
-    return res.json();
+    return handleAPIResponse(res);
 };
 
 // Approve a review by ID
@@ -72,8 +76,7 @@ export const approveReview = async (id: number) => {
         },
         body: JSON.stringify({ status: 'approved' }),
     });
-    if (!res.ok) throw new Error('Failed to approve review');
-    return res.json();
+    return handleAPIResponse(res);
 };
 
 // Reject a review by ID
@@ -85,6 +88,5 @@ export const rejectReview = async (id: number) => {
         },
         body: JSON.stringify({ status: 'rejected' }),
     });
-    if (!res.ok) throw new Error('Failed to reject review');
-    return res.json();
+    return handleAPIResponse(res);
 };

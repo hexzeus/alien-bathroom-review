@@ -8,6 +8,8 @@ const ReviewForm = () => {
         rating_overall: 0,
         rating_cleanliness: 0,
         rating_comfort: 0,
+        latitude: 0,
+        longitude: 0
     });
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -34,6 +36,8 @@ const ReviewForm = () => {
             rating_overall: 0,
             rating_cleanliness: 0,
             rating_comfort: 0,
+            latitude: 0,
+            longitude: 0
         });
     };
 
@@ -102,6 +106,30 @@ const ReviewForm = () => {
                 <div className="flex flex-col space-y-2">
                     <label className="text-electricGreen text-sm sm:text-lg">COMFORT RATING</label>
                     {ratingButtons('rating_comfort', form.rating_comfort)}
+                </div>
+            </div>
+
+            <div className="w-full flex justify-between space-x-4">
+                <div className="relative w-1/2">
+                    <input
+                        type="number"
+                        name="latitude"
+                        value={form.latitude}
+                        onChange={handleChange}
+                        placeholder="Latitude"
+                        className="w-full p-3 bg-gray-800 text-white rounded-md border-electricGreen focus:ring-2 focus:ring-electricGreen outline-none transition duration-300"
+                    />
+                </div>
+
+                <div className="relative w-1/2">
+                    <input
+                        type="number"
+                        name="longitude"
+                        value={form.longitude}
+                        onChange={handleChange}
+                        placeholder="Longitude"
+                        className="w-full p-3 bg-gray-800 text-white rounded-md border-electricGreen focus:ring-2 focus:ring-electricGreen outline-none transition duration-300"
+                    />
                 </div>
             </div>
 

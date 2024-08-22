@@ -5,11 +5,15 @@ import { useEffect, useState } from 'react';
 
 type AlienReview = {
     id: number;
-    planet_name: string;
-    alien_comment: string;
-    rating_cosmic: number;
-    rating_gravity: number;
-    rating_atmosphere: number;
+    place_name: string;
+    comment: string;
+    rating_overall: number;
+    rating_cleanliness: number;
+    rating_comfort: number;
+    latitude: number;
+    longitude: number;
+    status: string;
+    flagged: boolean;
 };
 
 const AlienReviewDetailPage = () => {
@@ -24,14 +28,7 @@ const AlienReviewDetailPage = () => {
                 setLoading(true);
                 try {
                     const data = await fetchReviewById(Number(id));
-                    setReview({
-                        ...data,
-                        planet_name: data.place_name,
-                        alien_comment: data.comment,
-                        rating_cosmic: data.rating_overall,
-                        rating_gravity: data.rating_cleanliness,
-                        rating_atmosphere: data.rating_comfort
-                    });
+                    setReview(data);
                 } catch (error) {
                     console.error('Galactic communication failure:', error);
                 } finally {
@@ -55,22 +52,24 @@ const AlienReviewDetailPage = () => {
             <Navbar />
             <div className="container mx-auto py-12 px-4 sm:px-6 lg:px-8">
                 <div className="bg-gray-900 p-8 rounded-lg shadow-xl border-2 border-green-500 animate-fadeIn hover:shadow-glow transition-all">
-                    <h2 className="text-4xl font-bold bg-gradient-to-r bg-clip-text animate-glow mb-6">{review.planet_name}</h2>
-                    <p className="mt-4 text-lg text-gray-300 italic animate-fadeInUp">&quot;{review.alien_comment}&quot;</p>
+                    <h2 className="text-4xl font-bold bg-gradient-to-r bg-clip-text animate-glow mb-6">{review.place_name}</h2>
+                    <p className="mt-4 text-lg text-gray-300 italic animate-fadeInUp">&quot;{review.comment}&quot;</p>
                     <div className="mt-8 space-y-4 animate-fadeInDown">
                         <div className="flex justify-between items-center">
                             <span className="text-green-400 font-semibold">Cosmic Rating:</span>
-                            <span className="text-yellow-400">{renderCosmicRating(review.rating_cosmic)}</span>
+                            <span className="text-yellow-400">{renderCosmicRating(review.rating_overall)}</span>
                         </div>
                         <div className="flex justify-between items-center">
                             <span className="text-green-400 font-semibold">Gravity Field:</span>
-                            <span className="text-yellow-400">{renderCosmicRating(review.rating_gravity)}</span>
+                            <span className="text-yellow-400">{renderCosmicRating(review.rating_cleanliness)}</span>
                         </div>
                         <div className="flex justify-between items-center">
                             <span className="text-green-400 font-semibold">Atmosphere Quality:</span>
-                            <span className="text-yellow-400">{renderCosmicRating(review.rating_atmosphere)}</span>
+                            <span className="text-yellow-400">{renderCosmicRating(review.rating_comfort)}</span>
                         </div>
                     </div>
+                    <p className="text-sm text-gray-400 mt-6">Coordinates: ({review.latitude}, {review.longitude})</p>
+                    <p className={`text-sm mt-2 ${review.flagged ? 'text-red-500' : 'text-green-500'}`}>Status: {review.status}</p>
                 </div>
                 <div className="mt-8 text-center">
                     <button
