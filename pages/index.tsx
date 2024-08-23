@@ -1,5 +1,16 @@
+import { GetServerSideProps } from 'next';
 import Navbar from '../components/Navbar';
 import ReviewList from '../components/ReviewList';
+
+// Redirect users to the intro page on first load
+export const getServerSideProps: GetServerSideProps = async () => {
+    return {
+        redirect: {
+            destination: '/intro', // Redirect to the intro page
+            permanent: false, // Temporary redirect
+        },
+    };
+};
 
 const Home = () => {
     return (
